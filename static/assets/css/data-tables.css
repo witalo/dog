@@ -419,9 +419,19 @@ div.dt-container div.dt-search label {
 }
 [type=search] {
     outline-offset: -2px;
-    -webkit-appearance: textfield
+    -webkit-appearance: textfield;
+    border: 2px solid #dbdbdb; /* Borde azul */
+    border-radius: 4px; /* Bordes redondeados opcionales */
+}
+[type=search]:hover {
+    border-color: #e00475;
 }
 
+/* Borde verde al enfocar el campo */
+[type=search]:focus {
+    border-color: #e00475;
+    box-shadow: 0 0 5px rgba(217, 8, 50, 0.5); /* Efecto de brillo verde opcional */
+}
 ::-webkit-search-decoration {
     -webkit-appearance: none
 }
