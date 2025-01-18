@@ -1,0 +1,150 @@
+{% load static %}
+<div class="modal-dialog modal-dialog-centered modal" role="document">
+    <div class="modal-content">
+        <form method="post" id="userForm" action="{% url 'users:user_create_update' %}">
+            {% csrf_token %}
+            <div class="modal-header bg-gradient-secondary">
+                <h6 class="modal-title  text-white ">{% if user %}Modificación del {% else %}Creacion de un
+                    nuevo{% endif %} empleado
+                </h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-2">
+                <div class="card card-primary card-outline m-0">
+                    <div class="card-header">
+                        <h5 class="card-title text-primary"></h5>
+                        <div class="float-right">
+                            <input type="hidden" value="{% if user %}{{ user.id }}{% endif %}"
+                                   id="pk" name="pk">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-normal mb-0" for="codigo">Codigo</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-check-circle"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" maxlength="20"
+                                               value="{% if cultivo %}{{ cultivo.codigo }}{% endif %}"
+                                               id="codigo"
+                                               name="codigo"
+                                               placeholder="Codigo...">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="font-weight-normal mb-0" for="nombre">Nombre cultivo</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fa fa-home"></i></span>
+                                        </div>
+                                        <input type="text" class="form-control" maxlength="100"
+                                               value="{% if cultivo %}{{ cultivo.nombre }}{% endif %}"
+                                               id="nombre"
+                                               name="nombre"
+                                               placeholder="Nombre cultivo...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <div class="row">
+                            <div class="col-md-6 align-self-end">
+                                <div class="form-group clearfix mb-3">
+                                    <div class="icheck-success d-inline">
+                                        <input type="checkbox"
+                                               {% if cultivo.activo %}checked{% else %}checked{% endif %} id="activo"
+                                               name="activo">
+                                        <label for="activo" class="font-weight-normal">
+                                            Estado cultivo
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6"></div>
+                        </div>
+                    </div>
+                    {#                    <div class="card-footer">#}
+                    {#                    </div>#}
+                </div>
+            </div>
+            <div class="modal-footer p-1">
+                <button type="submit" class="btn btn-success"><i
+                        class="fa fa-cloud-download-alt"></i> {% if user %}Actualizar{% else %}Registrar{% endif %}
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><span>&times;</span> Cerrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(function () {
+        $.validator.setDefaults({
+            submitHandler: function (form) {
+                // Envía los datos del formulario usando AJAX
+                $.ajax({
+                    url: $(form).attr('action'), // URL de la vista Django
+                    type: 'POST',
+                    data: $(form).serialize(), // Serializa los datos del formulario
+                    success: function (response) {
+                        // Maneja la respuesta del servidor
+                        if (response.success) {
+                            toastr.success(response.message)
+                            $('#modal-form').modal('hide'); // Cierra el modal
+                            // Aquí puedes actualizar la lista de "fundos" si es necesario
+                            $('#cultivo').empty().html(response.grid);
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        toastr.error(error)
+                    }
+                });
+            }
+        });
+        $('#cultivoForm').validate({
+            rules: {
+                codigo: {
+                    required: true
+                },
+                nombre: {
+                    required: true
+                }
+            },
+            messages: {
+                codigo: {
+                    required: "Ingrese codigo"
+                },
+                nombre: {
+                    required: "Ingrese nombre"
+                }
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+                // Encuentra la etiqueta <label> asociada al campo del formulario
+                var label = $("label[for='" + element.attr("id") + "']");
+                // Añade el mensaje de error al final del texto del label entre paréntesis
+                error.addClass('invalid-feedback');
+                label.append(" ");
+                label.append(error);
+                {#label.append(" (").append(error).append(")");#}
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+</script>

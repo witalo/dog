@@ -1,0 +1,102 @@
+{% load static %}
+<div class="table-responsive p-0">
+    <table class="table align-items-center mb-0" id="table_users">
+        <thead>
+        <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombres y Apellidos
+            </th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                Cargo
+            </th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                Telefono
+            </th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                Estado
+            </th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                Dirección
+            </th>
+            <th class="text-center text-secondary text-uppercase text-xxs font-weight-bolder opacity-7">Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for u in user_set %}
+            <tr>
+                <td>
+                    <div class="d-flex px-2 py-1">
+                        <div>
+                            {% if u.photo and u.photo.url %}
+                                <img src="{{ u.photo.url }}" class="avatar avatar-sm me-3 border-radius-2xl" alt="user1">
+                            {% else %}
+                                <img src="{% static 'assets/img/team-2.jpg' %}"
+                                     class="avatar avatar-sm me-3 border-radius-2xl" alt="user1">
+                            {% endif %}
+                        </div>
+                        <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ u.first_name }} {{ u.last_name }}</h6>
+                            <p class="text-xs text-secondary mb-0">{{ u.email }}</p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0">{{ u.get_role_display|default:'...' }}</p>
+                    <p class="text-xs text-secondary mb-0">{{ u.contract_date|date:'d-m-Y'|default:'...' }}</p>
+                </td>
+                <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{ u.phone|default:'...' }}</span>
+                </td>
+                <td class="align-middle text-center text-sm">
+                    {% if u.is_active %}
+                        <span class="badge badge-sm bg-gradient-success">Activo</span>
+                    {% else %}
+                        <span class="badge badge-sm bg-gradient-secondary">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td class="align-middle">
+                    <span class="text-secondary text-xs font-weight-bold">{{ u.address|default:'...' }}</span>
+                </td>
+                <td class="align-middle">
+                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs"
+                       data-toggle="tooltip" data-original-title="Edit user">
+                        Edit
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        {#        <tr>#}
+        {#            <td>#}
+        {#                <div class="d-flex px-2 py-1">#}
+        {#                    <div>#}
+        {#                        <img src="../assets/img/team-3.jpg"#}
+        {#                             class="avatar avatar-sm me-3 border-radius-lg" alt="user2">#}
+        {#                    </div>#}
+        {#                    <div class="d-flex flex-column justify-content-center">#}
+        {#                        <h6 class="mb-0 text-sm">Alexa Liras</h6>#}
+        {#                        <p class="text-xs text-secondary mb-0">alexa@creative-tim.com</p>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#            </td>#}
+        {#            <td>#}
+        {#                <p class="text-xs font-weight-bold mb-0">Programator</p>#}
+        {#                <p class="text-xs text-secondary mb-0">Developer</p>#}
+        {#            </td>#}
+        {#            <td class="align-middle text-center">#}
+        {#                <span class="text-secondary text-xs font-weight-bold">23/04/18</span>#}
+        {#            </td>#}
+        {#            <td class="align-middle text-center text-sm">#}
+        {#                <span class="badge badge-sm bg-gradient-secondary">Offline</span>#}
+        {#            </td>#}
+        {#            <td class="align-middle text-center">#}
+        {#                <span class="text-secondary text-xs font-weight-bold">11/01/19</span>#}
+        {#            </td>#}
+        {#            <td class="align-middle">#}
+        {#                <a href="javascript:;" class="text-secondary font-weight-bold text-xs"#}
+        {#                   data-toggle="tooltip" data-original-title="Edit user">#}
+        {#                    Edit#}
+        {#                </a>#}
+        {#            </td>#}
+        {#        </tr>#}
+        </tbody>
+    </table>
+</div>
