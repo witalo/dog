@@ -1,85 +1,91 @@
 {% load static %}
-<div class="modal-dialog modal-dialog-centered modal" role="document">
+<div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-        <form method="post" id="userForm" action="{% url 'users:user_create_update' %}">
+        <form method="post" id="userForm" role="form" action="{% url 'users:user_create_update' %}">
             {% csrf_token %}
-            <div class="modal-header bg-gradient-secondary">
-                <h6 class="modal-title  text-white ">{% if user %}Modificación del {% else %}Creacion de un
-                    nuevo{% endif %} empleado
-                </h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="modal-header">
+                <h6 class="modal-title" id="staticBackdropLabel">{% if user %}Modificación del {% else %}Creación de un
+                    nuevo{% endif %} empleado</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-2">
-                <div class="card card-primary card-outline m-0">
-                    <div class="card-header">
-                        <h5 class="card-title text-primary"></h5>
-                        <div class="float-right">
-                            <input type="hidden" value="{% if user %}{{ user.id }}{% endif %}"
-                                   id="pk" name="pk">
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="font-weight-normal mb-0" for="codigo">Codigo</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-check-circle"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" maxlength="20"
-                                               value="{% if cultivo %}{{ cultivo.codigo }}{% endif %}"
-                                               id="codigo"
-                                               name="codigo"
-                                               placeholder="Codigo...">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="font-weight-normal mb-0" for="nombre">Nombre cultivo</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-home"></i></span>
-                                        </div>
-                                        <input type="text" class="form-control" maxlength="100"
-                                               value="{% if cultivo %}{{ cultivo.nombre }}{% endif %}"
-                                               id="nombre"
-                                               name="nombre"
-                                               placeholder="Nombre cultivo...">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="row">
-                            <div class="col-md-6 align-self-end">
-                                <div class="form-group clearfix mb-3">
-                                    <div class="icheck-success d-inline">
-                                        <input type="checkbox"
-                                               {% if cultivo.activo %}checked{% else %}checked{% endif %} id="activo"
-                                               name="activo">
-                                        <label for="activo" class="font-weight-normal">
-                                            Estado cultivo
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6"></div>
-                        </div>
-                    </div>
-                    {#                    <div class="card-footer">#}
-                    {#                    </div>#}
+            <div class="modal-body">
+                <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Nº documento</label>
+                    <input type="text" maxlength="8" id="document" name="document" class="form-control"
+                           onfocus="focused(this)" onfocusout="defocused(this)">
+                </div>
+                <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Nombres</label>
+                    <input type="text" maxlength="100" id="first_name" name="first_name" class="form-control"
+                           onfocus="focused(this)" onfocusout="defocused(this)">
+                </div>
+                <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Apellidos</label>
+                    <input type="text" maxlength="100" id="last_name" name="last_name" class="form-control"
+                           onfocus="focused(this)" onfocusout="defocused(this)">
+                </div>
+                <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Telefono</label>
+                    <input type="text" maxlength="9" id="phone" name="phone" class="form-control"
+                           onfocus="focused(this)" onfocusout="defocused(this)">
+                </div>
+                <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Correo</label>
+                    <input type="email" maxlength="150" id="email" name="email" class="form-control"
+                           onfocus="focused(this)" onfocusout="defocused(this)">
+                </div>
+                <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Dirección</label>
+                    <input type="text" maxlength="250" id="address" name="address" class="form-control"
+                           onfocus="focused(this)" onfocusout="defocused(this)">
+                </div>
+                <div class="input-group input-group-outline mb-3">
+{#                    <label class="form-label">Fecha contrato</label>#}
+                    <input type="date" id="contract_date" name="contract_date" class="form-control">
+                </div>
+                <div class="input-group input-group-outline mb-3">
+{#                    <label class="form-label">Cargo</label>#}
+                    <select class="form-select select2 select2-success" aria-label="Default select example"
+                    data-dropdown-css-class="select2-success">
+                        <option value="">Cargo empleado</option>
+                        {% for r in role_set %}
+                            {% if user.role == r.0 %}
+                                <option selected="selected" value="{{ r.0 }}">
+                                    {{ r.1 }}
+                                </option>
+                            {% else %}
+                                <option value="{{ r.0 }}">
+                                    {{ r.1 }}
+                                </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Usuario</label>
+                    <input type="text" maxlength="100" id="username" name="username" class="form-control"
+                           onfocus="focused(this)" onfocusout="defocused(this)">
+                </div>
+                <div class="input-group input-group-outline mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" onfocus="focused(this)"
+                           onfocusout="defocused(this)">
+                </div>
+                <div class="form-check form-check-info text-start ps-0">
+                    <input class="form-check-input" type="checkbox" value="" id="is_active" name="is_active" checked="">
+                    <label class="form-check-label" for="is_active">
+                        Estado <a href="javascript:;" class="text-dark font-weight-bolder">Condición</a>
+                    </label>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign Up
+                    </button>
                 </div>
             </div>
-            <div class="modal-footer p-1">
-                <button type="submit" class="btn btn-success"><i
-                        class="fa fa-cloud-download-alt"></i> {% if user %}Actualizar{% else %}Registrar{% endif %}
-                </button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><span>&times;</span> Cerrar
-                </button>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary">{% if user %}Actualizar{% else %}
+                    Registrar{% endif %}</button>
             </div>
         </form>
     </div>

@@ -40,7 +40,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'document', 'first_name', 'last_name', 'phone', 'email', 'photo', 'role',
+        fields = ['username', 'document', 'first_name', 'last_name', 'phone', 'email', 'address', 'photo', 'role',
                   'contract_date', 'is_active']
         labels = {
             'username': 'Usuario',
@@ -49,6 +49,7 @@ class UserForm(forms.ModelForm):
             'last_name': 'Apellidos',
             'phone': 'Celular',
             'email': 'Correo',
+            'address': 'Dirección',
             'photo': 'Foto',
             'role': 'Rol',
             'contract_date': 'Fecha contrato',
@@ -106,6 +107,14 @@ class UserForm(forms.ModelForm):
                     'id': 'email',
                     'name': 'email',
                     'required': 'required'
+                }
+            ),
+            'address': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Dirección',
+                    'id': 'address',
+                    'name': 'address'
                 }
             ),
             'photo': forms.ClearableFileInput(
