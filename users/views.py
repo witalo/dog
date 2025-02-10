@@ -90,7 +90,7 @@ def modal_user(request):
                 'success': False,
                 'message': 'El empleado no existe',
             }, status=HTTPStatus.OK)
-        t = loader.get_template('users/user_form.html')
+        t = loader.get_template('users/modal_user.html')
         c = ({
             'user': user,
             'role_set': User._meta.get_field('role').choices,

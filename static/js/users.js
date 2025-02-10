@@ -6,21 +6,22 @@ function showModalView(route, pk) {
         data: {'pk': pk},
         success: function (r) {
             if (r.success) {
-                // $('#exampleModal .modal-body').empty().html(r.form);
-                var modalElement = document.getElementById('exampleModal');
-                var modalBodyElement = modalElement.querySelector('.modal-body');
-
-                // Limpia el contenido anterior
-                modalBodyElement.innerHTML = '';
-
-                // Inserta el nuevo contenido
-                modalBodyElement.innerHTML = r.form;
-
-                // Usa el método de Bootstrap para mostrar el modal
-                var modal = new bootstrap.Modal(modalElement, {
-                    keyboard: false
-                });
-                modal.show();
+                $('#modal-user').empty().html(r.form);
+                $('#modal-user').modal('show');
+                // var modalElement = document.getElementById('exampleModal');
+                // var modalBodyElement = modalElement.querySelector('.modal-body');
+                //
+                // // Limpia el contenido anterior
+                // modalBodyElement.innerHTML = '';
+                //
+                // // Inserta el nuevo contenido
+                // modalBodyElement.innerHTML = r.form;
+                //
+                // // Usa el método de Bootstrap para mostrar el modal
+                // var modal = new bootstrap.Modal(modalElement, {
+                //     keyboard: false
+                // });
+                // modal.show();
             } else {
                 toastr.info(r.message)
             }

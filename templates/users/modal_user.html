@@ -9,83 +9,115 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Nº documento</label>
-                    <input type="text" maxlength="8" id="document" name="document" class="form-control"
-                           onfocus="focused(this)" onfocusout="defocused(this)">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Rol empleado</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <select class="form-control select2">
+                                <option value="" disabled selected>Selecciona</option>
+                                {% for r in role_set %}
+                                    {% if user.role == r.0 %}
+                                        <option selected="selected" value="{{ r.0 }}">
+                                            {{ r.1 }}
+                                        </option>
+                                    {% else %}
+                                        <option value="{{ r.0 }}">
+                                            {{ r.1 }}
+                                        </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Nº documento</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="text" maxlength="8" id="document" name="document" class="form-control"
+                                   onfocus="focused(this)" placeholder="Documento" onfocusout="defocused(this)">
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Nombres</label>
-                    <input type="text" maxlength="100" id="first_name" name="first_name" class="form-control"
-                           onfocus="focused(this)" onfocusout="defocused(this)">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Nombres</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="text" maxlength="100" id="first_name" name="first_name" class="form-control"
+                                   onfocus="focused(this)" placeholder="Nombres" onfocusout="defocused(this)">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Apellidos</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="text" maxlength="100" id="last_name" name="last_name" class="form-control"
+                                   onfocus="focused(this)" placeholder="Apellidos" onfocusout="defocused(this)">
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Apellidos</label>
-                    <input type="text" maxlength="100" id="last_name" name="last_name" class="form-control"
-                           onfocus="focused(this)" onfocusout="defocused(this)">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Telefono</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="text" maxlength="9" id="phone" name="phone" class="form-control"
+                                   onfocus="focused(this)" placeholder="___ ___ ___" onfocusout="defocused(this)">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Correo</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="email" maxlength="150" id="email" name="email" class="form-control"
+                                   onfocus="focused(this)" placeholder="correo@gmail.com" onfocusout="defocused(this)">
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Telefono</label>
-                    <input type="text" maxlength="9" id="phone" name="phone" class="form-control"
-                           onfocus="focused(this)" onfocusout="defocused(this)">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="form-label mb-0">Dirección</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="text" maxlength="250" id="address" name="address" class="form-control"
+                                   onfocus="focused(this)" placeholder="Dirección" onfocusout="defocused(this)">
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Correo</label>
-                    <input type="email" maxlength="150" id="email" name="email" class="form-control"
-                           onfocus="focused(this)" onfocusout="defocused(this)">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Usuario</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="text" maxlength="100" id="username" name="username" class="form-control"
+                                   onfocus="focused(this)" placeholder="Usuario" onfocusout="defocused(this)">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Contraseña</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="password" class="form-control" onfocus="focused(this)"
+                                   onfocusout="defocused(this)" placeholder="Contraseña">
+                        </div>
+                    </div>
                 </div>
-                <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Dirección</label>
-                    <input type="text" maxlength="250" id="address" name="address" class="form-control"
-                           onfocus="focused(this)" onfocusout="defocused(this)">
-                </div>
-                <div class="input-group input-group-outline mb-3">
-{#                    <label class="form-label">Fecha contrato</label>#}
-                    <input type="date" id="contract_date" name="contract_date" class="form-control">
-                </div>
-                <div class="input-group input-group-outline mb-3">
-{#                    <label class="form-label">Cargo</label>#}
-                    <select class="form-select select2 select2-success" aria-label="Default select example"
-                    data-dropdown-css-class="select2-success">
-                        <option value="">Cargo empleado</option>
-                        {% for r in role_set %}
-                            {% if user.role == r.0 %}
-                                <option selected="selected" value="{{ r.0 }}">
-                                    {{ r.1 }}
-                                </option>
-                            {% else %}
-                                <option value="{{ r.0 }}">
-                                    {{ r.1 }}
-                                </option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Usuario</label>
-                    <input type="text" maxlength="100" id="username" name="username" class="form-control"
-                           onfocus="focused(this)" onfocusout="defocused(this)">
-                </div>
-                <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" onfocus="focused(this)"
-                           onfocusout="defocused(this)">
-                </div>
-                <div class="form-check form-check-info text-start ps-0">
-                    <input class="form-check-input" type="checkbox" value="" id="is_active" name="is_active" checked="">
-                    <label class="form-check-label" for="is_active">
-                        Estado <a href="javascript:;" class="text-dark font-weight-bolder">Condición</a>
-                    </label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label mb-0">Fecha contrato</label>
+                        <div class="input-group input-group-outline mb-3">
+                            <input type="date" id="contract_date" placeholder="01/01/2025" name="contract_date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-6 align-self-center">
+                        <div class="form-check form-check-info text-start ps-0">
+                            <input class="form-check-input" type="checkbox" value="" id="is_active" name="is_active"
+                                   checked="">
+                            <label class="form-check-label" for="is_active">
+                                Estado <a href="javascript:;" class="text-dark font-weight-bolder">Condición</a>
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="text-center">
-                    <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Sign Up
+                    <button type="button" class="btn btn-lg bg-gradient-primary btn-lg w-100 mb-0">{% if user %}Actualizar{% else %}
+                    Registrar{% endif %}
                     </button>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary">{% if user %}Actualizar{% else %}
-                    Registrar{% endif %}</button>
             </div>
         </form>
     </div>
